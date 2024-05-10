@@ -1,0 +1,11 @@
+1
+6
+3
+4
+
+
+Ref Scrapers
+Inbox scraper - getnada:  click button and then drop down form will show ->fixed drop down
+Guerilla scraper: drop down appears easily -> fixed drop down
+MailCatch scraper: static data, just go to that xpath and by id fetch data ->static website
+TempMail scraper: Where there is dynamic data generation like copy button available and diff domains gen  -> dynamic
