@@ -2,10 +2,25 @@
 6
 3
 4
-
+5
+7 -> it is the same as website name
+8 -> captcha (will solve it later)
+9 -> captch (will solve it later)
+10
 
 Ref Scrapers
 Inbox scraper - getnada:  click button and then drop down form will show ->fixed drop down
 Guerilla scraper: drop down appears easily -> fixed drop down
 MailCatch scraper: static data, just go to that xpath and by id fetch data ->static website
 TempMail scraper: Where there is dynamic data generation like copy button available and diff domains gen  -> dynamic
+
+There are plenty of functions selenium can offer, just think how you have extract certain info and then work with selenium
+
+Documentation for Xpath:
+https://www.lambdatest.com/blog/complete-guide-for-using-xpath-in-selenium-with-examples/
+
+
+Fake Mail, Minute Inbox, Ten Min Mail, Mail Catch, Temp Mail static
+Guerilla, Inboxes with Drop down
+
+Make generic script for all these
