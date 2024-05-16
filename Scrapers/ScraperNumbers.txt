@@ -7,6 +7,9 @@
 8 -> captcha (will solve it later)
 9 -> captch (will solve it later)
 10
+11
+12
+13 -> captcha
 
 Ref Scrapers
 Inbox scraper - getnada:  click button and then drop down form will show ->fixed drop down
@@ -20,7 +23,8 @@ Documentation for Xpath:
 https://www.lambdatest.com/blog/complete-guide-for-using-xpath-in-selenium-with-examples/
 
 
-Fake Mail, Minute Inbox, Ten Min Mail, Mail Catch, Temp Mail static
+Fake Mail, Minute Inbox, Ten Min Mail, Mail Catch, Temp Mail static, inbox kitten, tempail
 Guerilla, Inboxes with Drop down
 
 Make generic script for all these
+Tomorrow make drop down scrapers more generic
