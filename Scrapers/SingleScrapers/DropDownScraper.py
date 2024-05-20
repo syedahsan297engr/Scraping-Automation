@@ -41,16 +41,7 @@ def append_list_to_file(text_list, file_path):
         print(f"An error occurred while appending to the file: {e}")
 
 
-
-# Main execution logic
-def main():
-    # Path to ChromeDriver (adjust as needed)
-    chromedriver_path = "/usr/lib/chromium-browser/chromedriver"  # Change to your chromedriver path
-
-    # Initialize the WebDriver
-    #driver = setup_webdriver(chromedriver_path)
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install())) # no need to chromedriver_path
-
+def guerillaScraper(driver, fileName):
     # Open the website
     driver.get("https://www.guerrillamail.com/")  # Change to your target website
     dropdown_xpath = '//*[@id="gm-host-select"]'
@@ -60,9 +51,9 @@ def main():
     # Extract the text from each option
     dropdown_texts = [option.text for option in options]
     # Save the copied content to a text file
-    append_list_to_file(dropdown_texts, "dropdowns.txt")
+    append_list_to_file(dropdown_texts, fileName)
 
-
+def inboxesScraper(driver, fileName):
     #inboxes drop down
     driver.get("https://getnada.com")  # Change to your target website
     button_selector = "/html/body/div[1]/main/div/div/div/div[1]/button"
@@ -75,8 +66,20 @@ def main():
     # Extract the text from each option
     dropdown_texts = [option.text for option in options[1:]]
     # Save the copied content to a text file
-    append_list_to_file(dropdown_texts, "dropdowns.txt")
+    append_list_to_file(dropdown_texts, fileName)
 
+
+
+# Main execution logic
+def main():
+    # Path to ChromeDriver (adjust as needed)
+    chromedriver_path = "/usr/lib/chromium-browser/chromedriver"  # Change to your chromedriver path
+    # Initialize the WebDriver
+    #driver = setup_webdriver(chromedriver_path)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install())) # no need to chromedriver_path
+    outputFileName = "dropdowns.txt"
+    guerillaScraper(driver, outputFileName)
+    inboxesScraper(driver, outputFileName)
     # Close the WebDriver
     driver.quit()
 
