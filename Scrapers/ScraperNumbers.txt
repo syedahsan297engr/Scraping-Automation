@@ -10,6 +10,9 @@
 11
 12
 13 -> captcha
+14 -> beautiful soup used for html parsing
+15 -> already in excel and this is not dynamic
+16
 
 Ref Scrapers
 Inbox scraper - getnada:  click button and then drop down form will show ->fixed drop down
