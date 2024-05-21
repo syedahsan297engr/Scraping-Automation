@@ -1,18 +1,18 @@
-1
+1 -> dynamic
 6
 3
 4
 5
 7 -> it is the same as website name
 8 -> captcha (will solve it later)
-9 -> captch (will solve it later)
+9 -> captch (will solve it later) it is dynamic as well
 10
 11
 12
 13 -> captcha
 14 -> beautiful soup used for html parsing
 15 -> already in excel and this is not dynamic
-16
+16 it is dynamic make sure to add this in dynamic file as well
 
 Ref Scrapers
 Inbox scraper - getnada:  click button and then drop down form will show ->fixed drop down
@@ -31,3 +31,5 @@ Guerilla, Inboxes with Drop down
 
 Make generic script for all these
 Tomorrow make drop down scrapers more generic
+
+Separate the dynamic and static scrapers
