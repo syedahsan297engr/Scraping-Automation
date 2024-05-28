@@ -12,7 +12,10 @@
 13 -> captcha
 14 -> beautiful soup used for html parsing
 15 -> already in excel and this is not dynamic
-16 it is dynamic make sure to add this in dynamic file as well
+16 it is dynamic make sure to add this in dynamic file as well also implement other button logic as well. Get to click on choose button and then do next procedure.
+17 -> the one with drop down
+
+
 
 Ref Scrapers
 Inbox scraper - getnada:  click button and then drop down form will show ->fixed drop down
@@ -33,3 +36,5 @@ Make generic script for all these
 Tomorrow make drop down scrapers more generic
 
 Separate the dynamic and static scrapers
+
+In office I will make generic scrapers and include all the scrapers that have been added so far, think if some code needs to be changed
