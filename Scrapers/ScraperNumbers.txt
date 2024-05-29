@@ -14,6 +14,8 @@
 15 -> already in excel and this is not dynamic
 16 it is dynamic make sure to add this in dynamic file as well also implement other button logic as well. Get to click on choose button and then do next procedure.
 17 -> the one with drop down
+18 -> one time
+19 -> with drop down
 
 
 
@@ -38,3 +40,9 @@ Tomorrow make drop down scrapers more generic
 Separate the dynamic and static scrapers
 
 In office I will make generic scrapers and include all the scrapers that have been added so far, think if some code needs to be changed
+
+
+
+
+
+//Now disposable provider: https://temprmail.com

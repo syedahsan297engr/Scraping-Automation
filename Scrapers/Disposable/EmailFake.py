@@ -1,65 +1,56 @@
-# //*[@id="domainName2"]
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-import time  # to handle delays if needed
-import os
-# Function to set up WebDriver
-def setup_webdriver(chromedriver_path):
-    service = Service(chromedriver_path)
-    return webdriver.Chrome(service=service)
+
 
 # Function to get content from a specified attribute
-def get_element_attribute(driver, xpath, attribute, timeout=10):
-    wait = WebDriverWait(driver, timeout)  # Timeout in seconds
-    element = wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
-    # Get the specified attribute from the element
-    return element.get_attribute(attribute)
+def get_button_clicked(driver, xpath):
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath))).click()
+    return
 
-# Function to save content to a text file
-# Function to write or append content to a text file
-def write_or_append_to_file(content, file_path):
-    # Check if the file exists
-    if os.path.exists(file_path):
-        mode = "a"  # Append mode if file exists
-    else:
-        mode = "w"  # Write mode to create file if it doesn't exist
+def handle_form(driver, xpath):
+    dropdown = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath)))
+    return dropdown
 
-    with open(file_path, mode) as file:
-        if mode == "a":
-            file.write("\n")  # Optional newline for better formatting
-        file.write(content)
+def append_list_to_file(text_list, file_path):
+    try:
+        # Open the specified file in append mode
+        with open(file_path, 'a') as file:
+            # Write each item on a new line
+            for item in text_list:
+                file.write(item + '\n')  # Adding newline after each entry
+
+        print(f"Data successfully appended to {file_path}")
+
+    except Exception as e:
+        print(f"An error occurred while appending to the file: {e}")
 
 # Main execution logic
 def main():
-    # Path to ChromeDriver (adjust as needed)
-    chromedriver_path = "/usr/lib/chromium-browser/chromedriver"  # Change to your chromedriver path
-
-    # Initialize the WebDriver
-    # driver = setup_webdriver(chromedriver_path)
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))  #no need to setup chrome driver by yourself
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install())) # no need to chromedriver_path
     # Open the website
     driver.get("https://emailfake.com/")  # Change to your target website
 
-    # XPath for the button to click
-    email_xpath = '//*[@id="domainName2"]'
+    button_selector = "/html/body/div[3]/div/div/div/div[3]"
+    get_button_clicked(driver, button_selector)
 
-    # Wait for a moment to ensure the action completes
-    time.sleep(0.1)  # Adjust as needed based on website response time
+    # Locate the dropdown and extract its options (replace the selector with the correct one)
+    dropdown_selector = "/html/body/div[3]/div/div/div/div[2]/div[2]/div/div"
+    dropdown = handle_form(driver, dropdown_selector)
 
-    # XPath for the element containing copied content (assuming it's copied to another field)
-    # Example: where the content might be placed after clicking the copy button
-    # content_xpath = "//input[@id='mail']"  # Adjust to the actual element that holds the copied content
 
-    # Get the copied content
-    copied_content = get_element_attribute(driver, email_xpath, "value")
-    # print(copied_content)
+    # Get all the option elements from the dropdown
+    options = dropdown.find_elements(By.TAG_NAME, "p")
+
+    # Extract the text from each option
+    dropdown_texts = [option.text for option in options[1:]]
+
+    # print("Dropdown options:", dropdown_texts)
     # Save the copied content to a text file
-    write_or_append_to_file(copied_content, "copied_content.txt")
+    append_list_to_file(dropdown_texts, "copied_content.txt")
 
     # Close the WebDriver
     driver.quit()
