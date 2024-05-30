@@ -3,8 +3,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
-import time  # to handle delays if needed
-import os
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Function to set up WebDriver
@@ -29,11 +27,22 @@ def handle_form(driver, xpath):
 
 def append_list_to_file(text_list, file_path):
     try:
-        # Open the specified file in append mode
+        # Read existing entries from the file to check for duplicates
+        existing_entries = set()
+        try:
+            with open(file_path, 'r') as file:
+                existing_entries = set(line.strip() for line in file)
+        except FileNotFoundError:
+            # If the file doesn't exist, create it
+            open(file_path, 'w').close()  # Create the file
+
+        # Open the specified file in append mode (this will create the file if it doesn't exist)
         with open(file_path, 'a') as file:
-            # Write each item on a new line
+            # Write each item only if it is not already in the file
             for item in text_list:
-                file.write(item + '\n')  # Adding newline after each entry
+                if item not in existing_entries:
+                    file.write(item + '\n')  # Adding newline after each entry
+                    existing_entries.add(item)
 
         print(f"Data successfully appended to {file_path}")
 
@@ -52,6 +61,7 @@ def guerillaScraper(driver, fileName):
     dropdown_texts = [option.text for option in options]
     # Save the copied content to a text file
     append_list_to_file(dropdown_texts, fileName)
+    return
 
 def inboxesScraper(driver, fileName):
     #inboxes drop down
@@ -67,19 +77,55 @@ def inboxesScraper(driver, fileName):
     dropdown_texts = [option.text for option in options[1:]]
     # Save the copied content to a text file
     append_list_to_file(dropdown_texts, fileName)
+    return
+
+def temprMailScraper(driver, fileName):
+    driver.get("https://tempr.email/")  # Change to your target website
+    dropdown_xpath = '//*[@id="LoginDomainId"]'
+    dropdown = get_drop_down(driver, dropdown_xpath)
+    
+    # Get all the option elements from the dropdown
+    options = dropdown.find_elements(By.TAG_NAME, "option")
+    # Extract the text from each option
+    dropdown_texts = [option.text for option in options]
+
+    # Save the copied content to a text file
+    append_list_to_file(dropdown_texts, fileName)
+    return
+
+def emailFakeScraper(driver, fileName):
+    driver.get("https://emailfake.com/")  # Change to your target website
+
+    button_selector = "/html/body/div[3]/div/div/div/div[3]"
+    get_button_clicked(driver, button_selector)
+
+    # Locate the dropdown and extract its options (replace the selector with the correct one)
+    dropdown_selector = "/html/body/div[3]/div/div/div/div[2]/div[2]/div/div"
+    dropdown = handle_form(driver, dropdown_selector)
+
+
+    # Get all the option elements from the dropdown
+    options = dropdown.find_elements(By.TAG_NAME, "p")
+
+    # Extract the text from each option
+    dropdown_texts = [option.text for option in options[1:]]
+
+    # print("Dropdown options:", dropdown_texts)
+    # Save the copied content to a text file
+    append_list_to_file(dropdown_texts, fileName)
+    return
 
 
 
 # Main execution logic
 def main():
-    # Path to ChromeDriver (adjust as needed)
-    chromedriver_path = "/usr/lib/chromium-browser/chromedriver"  # Change to your chromedriver path
     # Initialize the WebDriver
-    #driver = setup_webdriver(chromedriver_path)
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install())) # no need to chromedriver_path
     outputFileName = "dropdowns.txt"
     guerillaScraper(driver, outputFileName)
-    inboxesScraper(driver, outputFileName)
+    temprMailScraper(driver, outputFileName)
+    emailFakeScraper(driver, outputFileName)
+    inboxesScraper(driver, outputFileName) #takes little more time to scrap
     # Close the WebDriver
     driver.quit()
 
