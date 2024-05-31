@@ -12,6 +12,9 @@ def get_element_value(driver, xpath):
     element = driver.find_element(By.XPATH, xpath)
     return element.text
 
+def get_element_value_2(driver, xpath):
+    element = driver.find_element(By.XPATH, xpath)
+    return element.get_attribute("value")
 
 # Function to get content from a specified attribute
 def get_element_attribute(driver, xpath, attribute):
@@ -101,6 +104,33 @@ def kukuMailScraper(driver, fileName):
     content = get_element_value(driver, input_xpath)
     content = filter_content(content)
     print(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+# 56
+# 5
+def fakeMailScraper(driver, fileName):
+    # Open the desired website
+    driver.get("https://www.fakemail.net/")  # Change to your target website
+
+    # XPath for the element you want to retrieve
+    input_xpath = '//*[@id="email"]'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+# 59
+def tenMinMailScraper(driver, fileName):
+    # Open the desired website
+    driver.get("https://10minutemail.com/")  # Change to your target website
+    button_xpath = '//*[@id="mail_address"]'
+    time.sleep(1)
+    content = get_element_value_2(driver, button_xpath)
+    content = filter_content(content)
     # Save the retrieved content to a text file
     save_to_file(content, fileName)
     return

@@ -421,12 +421,46 @@ def dropMailScraper(driver, fileName):
 
     # Extract the text from each option
     dropdown_texts = [option.text for option in options]
-    print(dropdown_texts)
     # Save the copied content to a text file
     append_list_to_file(filter_content(dropdown_texts), fileName)
     return
 
+# 57
+def mailTempScraper(driver, fileName):
+    driver.get("https://mail-temp.com")  # Change to your target website
 
+    button_selector = '/html/body/div[2]/div/div/div[2]/div/div/div[3]'
+    get_button_clicked(driver, button_selector)
+
+    # Locate the dropdown and extract its options (replace the selector with the correct one)
+    dropdown_selector = '//*[@id="newselect"]'
+    dropdown = handle_form(driver, dropdown_selector)
+
+    # Get all the option elements from the dropdown
+    options = dropdown.find_elements(By.TAG_NAME, "p")
+
+    # Extract the text from each option
+    dropdown_texts = [option.text for option in options]
+    # Save the copied content to a text file
+    append_list_to_file(filter_content(dropdown_texts), fileName)
+    return
+
+# 58
+def tempeMailScraper(driver, fileName):
+    driver.get("https://tempemail.co/")  # Change to your target website
+
+    dropdown_xpath = '//*[@id="email_domain"]'
+    dropdown = get_drop_down(driver, dropdown_xpath)
+    
+    # Get all the option elements from the dropdown
+    options = dropdown.find_elements(By.TAG_NAME, "option")
+
+    # Extract the text from each option
+    dropdown_texts = [option.text for option in options[1:]]
+    print(dropdown_texts)
+    # Save the copied content to a text file
+    append_list_to_file(filter_content(dropdown_texts), fileName)
+    return
 
 # Main execution logic
 def main():
@@ -451,6 +485,8 @@ def main():
     # moaktScraper(driver, outputFileName)
     # muellMailScraper(driver, outputFileName)
     # dropMailScraper(driver, outputFileName)
+    # mailTempScraper(driver, outputFileName)
+    tempeMailScraper(driver, outputFileName)
     # inboxesScraper(driver, outputFileName) #takes little more time to scrap
     # Close the WebDriver
     driver.quit()

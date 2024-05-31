@@ -47,6 +47,16 @@
 48 -> random
 49 -> drop down
 50 -> added in static
+51 -> static
+52 -> static
+53 -> Problem Loading Page
+54 -> static
+55 -> already done
+56 -> already done and now added to dynamic
+57 -> drop down
+58 -> drop down
+59 -> dynamic
+60 -> static
 
 
 

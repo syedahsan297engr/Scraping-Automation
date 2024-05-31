@@ -137,19 +137,6 @@ def tempMailScraper(driver, fileName):
     save_to_file(content, fileName)
     return
 
-# 5
-def fakeMailScraper(driver, fileName):
-    # Open the desired website
-    driver.get("https://www.fakemail.net/")  # Change to your target website
-
-    # XPath for the element you want to retrieve
-    input_xpath = '//*[@id="email"]'
-    # Get the value from the specified element
-    content = get_element_value(driver, input_xpath)
-    content = filter_content(content)
-    # Save the retrieved content to a text file
-    save_to_file(content, fileName)
-    return
 # 6
 def mailCatchScraper(driver, fileName):
     driver.get("http://mailcatch.com")  # Change to your target website
@@ -380,7 +367,6 @@ def suteScraper(driver, fileName):
     # Get the value from the specified element
     content = get_element_value(driver, input_xpath)
     content = filter_content(content)
-    print(content)
     # Save the retrieved content to a text file
     save_to_file(content, fileName)
     return
@@ -395,12 +381,40 @@ def tenMinMailNetScraper(driver, fileName):
     # Get the value from the specified element
     content = get_element_attribute(driver, input_xpath, "value")
     content = filter_content(content)
-    print(content)
     # Save the retrieved content to a text file
     save_to_file(content,fileName)
     return
 
-# 53
+# 54
+def disposableScraper(driver, fileName):
+    # Open the desired website
+    driver.get("https://www.disposablemail.com/")  # Change to your target website
+
+    # XPath for the element you want to retrieve
+    input_xpath = '//*[@id="email"]'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+# 60
+def snapMailScraper(driver, fileName):
+    driver.get("https://snapmail.cc")  # Change to your target website
+
+    # XPath for the element you want to retrieve
+    input_xpath = '/html/body/div/div[2]/div[1]/ul[1]/li[2]/a/span[1]'
+    time.sleep(1)
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    print(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+
 
 # Main execution
 def main():
@@ -422,8 +436,10 @@ def main():
     # eyePasteScraper(driver, outputFile)
     # einWegScraper(driver, outputFile)
     # mail1aScraper(driver, outputFile)
-    suteScraper(driver, outputFile)
-    tenMinMailNetScraper(driver, outputFile)
+    # suteScraper(driver, outputFile)
+    # tenMinMailNetScraper(driver, outputFile)
+    # disposableScraper(driver, outputFile)
+    snapMailScraper(driver, outputFile)
     # Close the WebDriver
     driver.quit()
 
