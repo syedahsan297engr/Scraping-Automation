@@ -1,0 +1,1 @@
+content = filter_content(content)
