@@ -316,6 +316,60 @@ def tenMinMailScraper(driver, fileName):
     save_to_file(content, fileName)
     return
 
+
+# 43
+def eyePasteScraper(driver, fileName):
+    # Open the desired website
+    driver.get("https://www.eyepaste.com/")  # Change to your target website
+
+    # XPath for the element you want to retrieve
+    input_xpath = '/html/body/div[1]/div[2]/div/h1'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+
+# 46
+def einWegScraper(driver, fileName):
+    # Open the desired website
+    driver.get("https://www.einweg-email.com")  # Change to your target website
+
+    # XPath for the element you want to retrieve
+    input_xpath = '//*[@id="my-address"]'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+# 47
+def mail1aScraper(driver, fileName):
+    # Open the desired website
+    driver.get("https://mail1a.de/")  # Change to your target website
+
+    # XPath for the element you want to retrieve
+    input_xpath = '/html/body/div[2]/div[1]/div[1]/form/div/div/div'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+# 50
+def twentyFourHourScraper(driver, fileName):
+    driver.get("https://24hour.email/mailbox/")  # Change to your target website
+    xpath2 = '//*[@id="current-id"]'
+    content = get_element_value_2(driver, xpath2)
+    content = filter_content(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
 # Main execution
 def main():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -327,11 +381,16 @@ def main():
     # tempailScraper(driver, outputFile) #require captacha solve it later
     # tenMinMailScraper(driver, outputFile)
     # yopMailScraper(driver, outputFile)
-    crazyMailScraper(driver, outputFile) #it requires permissions to be allowed manually
+    # crazyMailScraper(driver, outputFile) #it requires permissions to be allowed manually
     # fakeeMailScraper(driver, outputFile)
     # harikiriMailScraper(driver, outputFile)
     # uroidScraper(driver, outputFile)
-    tenMinMailScraper(driver, outputFile) 
+    # tenMinMailScraper(driver, outputFile) 
+    # anonBoxScraper(driver, outputFile)
+    # eyePasteScraper(driver, outputFile)
+    # einWegScraper(driver, outputFile)
+    # mail1aScraper(driver, outputFile)
+    kukuMailScraper(driver, outputFile)
     # Close the WebDriver
     driver.quit()
 

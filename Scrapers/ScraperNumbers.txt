@@ -32,6 +32,22 @@
 33 -> doesn't exist
 34 -> static
 35 -> static
+36 -> drop down
+37 -> static
+38 -> drop down
+39 -> drop down  it is in gmail.com why ...
+40 -> drop down
+41 -> not making any sense
+42 -> drop down
+43 -> static
+44 -> drop down
+45 -> same as 44
+46 -> static
+47 -> static
+48 -> random
+49 -> drop down
+50 -> added in static
+
 
 
 Ref Scrapers

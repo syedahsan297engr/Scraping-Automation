@@ -15,6 +15,9 @@ def get_drop_down(driver, xpath):
     output = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, xpath)))
     return output
 
+def get_element_value_2(driver, xpath):
+    element = driver.find_element(By.XPATH, xpath)
+    return element.get_attribute("value")
 
 #for inboxes
 def get_button_clicked(driver, xpath):
@@ -300,7 +303,137 @@ def trashMailScraper(driver, fileName):
     append_list_to_file(filter_content(dropdown_texts), fileName)
     return
 
+# 36
+def lorteMailScraper(driver, fileName):
+    driver.get("https://lortemail.dk/")  # Change to your target website
 
+    dropdown_xpath = '/html/body/section[1]/div/div[2]/div[2]/form/fieldset/div[2]/div/select'
+    dropdown = get_drop_down(driver, dropdown_xpath)
+    
+    # Get all the option elements from the dropdown
+    options = dropdown.find_elements(By.TAG_NAME, "option")
+
+    # Extract the text from each option
+    dropdown_texts = [option.text for option in options]
+    # Save the copied content to a text file
+    append_list_to_file(filter_content(dropdown_texts), fileName)
+    return
+
+# 38
+def oneSecMailScraper(driver, fileName):
+    driver.get("https://www.1secmail.com/")  # Change to your target website
+
+    dropdown_xpath = '/html/body/div/div[4]/div[1]/form/div/select'
+    dropdown = get_drop_down(driver, dropdown_xpath)
+    
+    # Get all the option elements from the dropdown
+    options = dropdown.find_elements(By.TAG_NAME, "option")
+
+    # Extract the text from each option
+    dropdown_texts = [option.text for option in options]
+    # Save the copied content to a text file
+    append_list_to_file(filter_content(dropdown_texts), fileName)
+    return
+
+# 39
+def mailTempGmailScraper(driver, fileName):
+    driver.get("https://mail-temp.com/blog/temp-gmail-generator#google_vignette")  # Change to your target website
+
+    button_selector = '//*[@id="drop_sel"]'
+    get_button_clicked(driver, button_selector)
+
+    # Locate the dropdown and extract its options (replace the selector with the correct one)
+    dropdown_selector = '//*[@id="newselect"]'
+    dropdown = handle_form(driver, dropdown_selector)
+
+
+    # Get all the option elements from the dropdown
+    options = dropdown.find_elements(By.TAG_NAME, "p")
+
+    # Extract the text from each option
+    dropdown_texts = [option.text for option in options]
+    # Save the copied content to a text file
+    append_list_to_file(dropdown_texts, fileName)
+    return
+
+# 40
+def trashMailScraper(driver, fileName):
+    driver.get("https://trashmail.com/")  # Change to your target website
+
+    dropdown_xpath = '//*[@id="fe-mob-domain"]'
+    dropdown = get_drop_down(driver, dropdown_xpath)
+    
+    # Get all the option elements from the dropdown
+    options = dropdown.find_elements(By.TAG_NAME, "option")
+
+    # Extract the text from each option
+    dropdown_texts = [option.text for option in options]
+    # Save the copied content to a text file
+    append_list_to_file(filter_content(dropdown_texts), fileName)
+    return
+
+# 42
+def moaktScraper(driver, fileName):
+    driver.get("https://www.moakt.com/fr")  # Change to your target website
+
+    dropdown_xpath = '/html/body/div[1]/div/div[2]/div/div/form/span[2]/span/select/optgroup'
+    dropdown = get_drop_down(driver, dropdown_xpath)
+    
+    # Get all the option elements from the dropdown
+    options = dropdown.find_elements(By.TAG_NAME, "option")
+
+    # Extract the text from each option
+    dropdown_texts = [option.text for option in options]
+    # Save the copied content to a text file
+    append_list_to_file(filter_content(dropdown_texts), fileName)
+    return
+
+# 44
+def muellMailScraper(driver, fileName):
+    driver.get("https://muellmail.com/en#google_vignette")  # Change to your target website
+
+    dropdown_xpath = '/html/body/div[2]/main/div[2]/div[2]/div[2]/div/div/div[1]/select'
+    dropdown = get_drop_down(driver, dropdown_xpath)
+    
+    # Get all the option elements from the dropdown
+    options = dropdown.find_elements(By.TAG_NAME, "option")
+
+    # Extract the text from each option
+    dropdown_texts = [option.text for option in options]
+    # Save the copied content to a text file
+    append_list_to_file(filter_content(dropdown_texts), fileName)
+    return
+
+# 49
+def dropMailScraper(driver, fileName):
+    driver.get("https://dropmail.me")  # Change to your target website
+
+    button_selector = '/html/body/div[2]/div[4]/div[1]/button[2]'
+    get_button_clicked(driver, button_selector)
+
+    # Locate the dropdown and extract its options (replace the selector with the correct one)
+    dropdown_selector = '//*[@id="dropdown"]'
+    dropdown = handle_form(driver, dropdown_selector)
+
+
+    # Get all the option elements from the dropdown
+    options = dropdown.find_elements(By.TAG_NAME, "a")
+
+    # Extract the text from each option
+    dropdown_texts = [option.text for option in options]
+    print(dropdown_texts)
+    # Save the copied content to a text file
+    append_list_to_file(filter_content(dropdown_texts), fileName)
+    return
+
+# 50
+def twentyFourHourScraper(driver, fileName):
+    driver.get("https://24hour.email/mailbox/")  # Change to your target website
+    # //*[@id="current-id"]
+    xpath2 = '//*[@id="current-id"]'
+    content = get_element_value_2(driver, xpath2)
+    print(content)
+    return
 
 # Main execution logic
 def main():
@@ -317,7 +450,15 @@ def main():
     # fakeTempMailScraper(driver, outputFileName)
     # instantMailScraper(driver, outputFileName)
     # mailGenScraper(driver, outputFileName)
-    trashMailScraper(driver, outputFileName)
+    # trashMailScraper(driver, outputFileName)
+    # lorteMailScraper(driver, outputFileName)
+    # oneSecMailScraper(driver, outputFileName)
+    # mailTempGmailScraper(driver, outputFileName) # why gmail.com a disposable domain
+    # trashMailScraper(driver, outputFileName)
+    # moaktScraper(driver, outputFileName)
+    # muellMailScraper(driver, outputFileName)
+    # dropMailScraper(driver, outputFileName)
+    twentyFourHourScraper(driver, outputFileName)
     # inboxesScraper(driver, outputFileName) #takes little more time to scrap
     # Close the WebDriver
     driver.quit()

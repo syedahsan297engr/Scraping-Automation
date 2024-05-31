@@ -5,6 +5,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
+
+# Function to get a specific element's value using XPath
+def get_element_value(driver, xpath):
+    element = driver.find_element(By.XPATH, xpath)
+    return element.text
+
+
 # Function to get content from a specified attribute
 def get_element_attribute(driver, xpath, attribute):
     wait = WebDriverWait(driver)
@@ -55,7 +62,7 @@ def save_to_file(content, file_path):
     except Exception as e:
         print(f"An error occurred while writing to the file: {e}")
 
-
+# 1
 def tempMailScraper(driver, fileName):
     driver.get("https://temp-mail.org/en/")  # Change to your target website
 
@@ -65,6 +72,34 @@ def tempMailScraper(driver, fileName):
     # Get the value from the specified element
     content = get_element_attribute(driver, input_xpath, "value")
     content = filter_content(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+# 37
+def anonBoxScraper(driver, fileName):
+    # Open the desired website
+    driver.get("https://anonbox.net/en/")  # Change to your target website
+
+    # XPath for the element you want to retrieve
+    input_xpath = '/html/body/div[2]/dl/dd[2]/p'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+
+# 48
+def kukuMailScraper(driver, fileName):
+    # Open the desired website
+    driver.get("https://m.kuku.lu/index.php")  # Change to your target website
+    input_xpath = '/html/body/div[1]/div[3]/div/div/div[8]/div[4]/div/div[1]/div/div[1]/a/div/span[2]'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    print(content)
     # Save the retrieved content to a text file
     save_to_file(content, fileName)
     return
