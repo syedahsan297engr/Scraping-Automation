@@ -426,14 +426,7 @@ def dropMailScraper(driver, fileName):
     append_list_to_file(filter_content(dropdown_texts), fileName)
     return
 
-# 50
-def twentyFourHourScraper(driver, fileName):
-    driver.get("https://24hour.email/mailbox/")  # Change to your target website
-    # //*[@id="current-id"]
-    xpath2 = '//*[@id="current-id"]'
-    content = get_element_value_2(driver, xpath2)
-    print(content)
-    return
+
 
 # Main execution logic
 def main():
@@ -458,7 +451,6 @@ def main():
     # moaktScraper(driver, outputFileName)
     # muellMailScraper(driver, outputFileName)
     # dropMailScraper(driver, outputFileName)
-    twentyFourHourScraper(driver, outputFileName)
     # inboxesScraper(driver, outputFileName) #takes little more time to scrap
     # Close the WebDriver
     driver.quit()

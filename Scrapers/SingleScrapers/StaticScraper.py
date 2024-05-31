@@ -370,6 +370,38 @@ def twentyFourHourScraper(driver, fileName):
     save_to_file(content, fileName)
     return
 
+# 51
+def suteScraper(driver, fileName):
+    # Open the desired website
+    driver.get("https://sute.jp/")  # Change to your target website
+
+    # XPath for the element you want to retrieve
+    input_xpath = '/html/body/div/div/div/div[2]/div[1]/form/div[1]/div/div/span'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    print(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+# 52
+def tenMinMailNetScraper(driver, fileName):
+    driver.get("https://10minutemail.info/")  # Change to your target website
+
+    # XPath for the element you want to retrieve
+    input_xpath = '//*[@id="fe_text"]'
+
+    # Get the value from the specified element
+    content = get_element_attribute(driver, input_xpath, "value")
+    content = filter_content(content)
+    print(content)
+    # Save the retrieved content to a text file
+    save_to_file(content,fileName)
+    return
+
+# 53
+
 # Main execution
 def main():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -390,7 +422,8 @@ def main():
     # eyePasteScraper(driver, outputFile)
     # einWegScraper(driver, outputFile)
     # mail1aScraper(driver, outputFile)
-    kukuMailScraper(driver, outputFile)
+    suteScraper(driver, outputFile)
+    tenMinMailNetScraper(driver, outputFile)
     # Close the WebDriver
     driver.quit()
 
