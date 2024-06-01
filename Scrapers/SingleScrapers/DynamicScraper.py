@@ -80,6 +80,21 @@ def tempMailScraper(driver, fileName):
     save_to_file(content, fileName)
     return
 
+# 28
+def crazyMailScraper(driver, fileName):
+    # Open the desired website
+    driver.get("https://www.crazymailing.com/")  # Change to your target website
+    time.sleep(7) # wait for the content to appear
+    input_xpath = '//*[@id="trsh_mail"]'
+    # Get the value from the specified element using this javascript code
+    content = get_element_attribute(driver, input_xpath, "value")
+    content = filter_content(content)
+    print(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+
 # 37
 def anonBoxScraper(driver, fileName):
     # Open the desired website

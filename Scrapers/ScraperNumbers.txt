@@ -57,6 +57,48 @@
 58 -> drop down
 59 -> dynamic
 60 -> static
+61 -> static
+64 -> not working
+65 -> require login
+66 -> static 
+67 -> no email on this page
+68 -> static
+69 -> static
+70 -> not looking like a domain website
+71 -> static
+72 -> not working
+73 -> not working
+74 -> paid
+75 -> not a disposable source
+76 -> not a disposable source
+77 -> not a disposable source
+78 -> not responding
+79 -> static
+80 -> not working
+81 -> static same website as 79
+82 -> not working
+83 -> not working
+84 -> not working
+85 -> static
+86 -> not working
+87 -> not found
+88 -> paid
+89 -> not working
+90 -> not working
+91 -> not working
+92 -> not working
+93 -> static
+94 -> not working
+95 -> not working
+96 -> not working
+97 -> static
+98 -> not working
+99 -> not working
+100 -> not working
+101 -> static
+102 -> same as prev
+103 -> not working
+104 -> under construction
 
 
 

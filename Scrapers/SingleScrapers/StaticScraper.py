@@ -228,27 +228,6 @@ def yopMailScraper(driver, fileName):
     driver.quit()
     return
 
-# 28
-def crazyMailScraper(driver, fileName):
-    # Open the desired website
-    driver.get("https://www.crazymailing.com/")  # Change to your target website
-    time.sleep(2) # wait for the content to appear
-    button_xpath = "/html/body/section[1]/div[2]/div/div/div/div[1]/button"
-    get_button_clicked(driver, button_xpath)
-    # Get the value from the specified element using this javascript code
-    content = driver.execute_script("""
-        return (navigator.clipboard.readText().then(function(text) {
-            return text;
-        }).catch(function(err) {
-            console.error('Failed to read clipboard contents: ', err);
-            return null;
-        }));
-    """)
-    content = filter_content(content)
-    # Save the retrieved content to a text file
-    save_to_file(content, fileName)
-    return
-
 # 31
 def fakeeMailScraper(driver, fileName):
     # Open the desired website
@@ -409,12 +388,140 @@ def snapMailScraper(driver, fileName):
     # Get the value from the specified element
     content = get_element_value(driver, input_xpath)
     content = filter_content(content)
-    print(content)
     # Save the retrieved content to a text file
     save_to_file(content, fileName)
     return
 
+# 61
+def tijDeliScraper(driver, fileName):
+    driver.get("https://tijdelijke-email.nl/")  # Change to your target website
 
+    # XPath for the element you want to retrieve
+    input_xpath = '/html/body/header/div/h1'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+# 66
+def trashSpamScraper(driver, fileName):
+    driver.get("https://www.trashspam.com")  # Change to your target website
+    button_xpath = '/html/body/div/div/div/div[3]'
+    get_button_clicked(driver, button_xpath)
+    input_xpath = '/html/body/div/div/div/div[1]/div[2]/div'
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    # # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+# 68
+def tempeMailScraper(driver, fileName):
+    driver.get("https://tempemails.net/")  # Change to your target website
+    time.sleep(6) # for getting content
+    # Get the HTML content of the page
+    html_content = driver.page_source
+    # Parse the HTML content using BeautifulSoup
+    soup = BeautifulSoup(html_content, 'html.parser')
+    # Extract the content of <h1> tag inside <header> inside <main>
+    main_content = soup.find('main')
+    header_content = main_content.find('header') if main_content else None
+    h1_content = header_content.find('h1') if header_content else None
+
+    # Get the text content of the <h1> tag
+    h1_text = h1_content.get_text(strip=True) if h1_content else ''
+    # Save the retrieved content to a text file
+    save_to_file(h1_text, fileName)
+    return
+
+# 69
+def clipMailScraper(driver, fileName):
+    driver.get("https://clipmails.com/")  # Change to your target website
+    time.sleep(6) # for getting content
+    input_xpath = '/html/body/div/div/div/div[1]/div[2]/div'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    save_to_file(content, fileName)
+    return
+
+# 71 
+def getInboxScraper(driver, fileName):
+    driver.get("http://ww1.getinboxes.com/")  # Change to your target website
+    time.sleep(3) # for getting content
+    input_xpath = '/html/body/div/main/header/h1'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    save_to_file(content, fileName)
+    return
+
+# 79
+def tempMailNinjaScraper(driver, fileName):
+    driver.get("https://tempmail.ninja/")  # Change to your target website
+
+    # XPath for the element you want to retrieve
+    input_xpath = '//*[@id="email"]'
+
+    # Get the value from the specified element
+    content = get_element_attribute(driver, input_xpath, "value")
+    content = filter_content(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
+
+# 85
+def mailHazardScraper(driver, fileName):
+    driver.get("http://ww7.mailhazard.com")  # Change to your target website
+
+    time.sleep(3) # for getting content
+    input_xpath = '/html/body/div/main/header/h1'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    save_to_file(content, fileName)
+    return
+
+# 92
+def mailTemporaireScraper(driver, fileName):
+    driver.get("https://www.mail-temporaire.fr/")  # Change to your target website
+    button_xpath = '/html/body/table/tbody/tr/td[2]/div/div[2]/form/div[1]/table/tbody/tr/td/b/a'
+    get_button_clicked(driver, button_xpath)
+    input_xpath = '//*[@id="searchinput"]'
+    content = get_element_value_2(driver, input_xpath)
+    content = filter_content(content)
+    save_to_file(content, fileName)
+    return
+
+# 97
+def tempSkyScraper(driver, fileName):
+    driver.get("http://ww1.tempsky.com/lander")  # Change to your target website
+
+    time.sleep(3) # for getting content
+    input_xpath = '/html/body/div/div/div/div[1]/div[2]/div'
+    # Get the value from the specified element
+    content = get_element_value(driver, input_xpath)
+    content = filter_content(content)
+    print(content)
+    save_to_file(content, fileName)
+    return
+
+# 101
+def tempMailIOScraper(driver, fileName):
+    driver.get("https://tempmail.io/")  # Change to your target website
+
+    # XPath for the element you want to retrieve
+    input_xpath = '//*[@id="email"]'
+
+    # Get the value from the specified element
+    content = get_element_attribute(driver, input_xpath, "value")
+    content = filter_content(content)
+    print(content)
+    # Save the retrieved content to a text file
+    save_to_file(content, fileName)
+    return
 
 # Main execution
 def main():
@@ -427,7 +534,6 @@ def main():
     # tempailScraper(driver, outputFile) #require captacha solve it later
     # tenMinMailScraper(driver, outputFile)
     # yopMailScraper(driver, outputFile)
-    # crazyMailScraper(driver, outputFile) #it requires permissions to be allowed manually
     # fakeeMailScraper(driver, outputFile)
     # harikiriMailScraper(driver, outputFile)
     # uroidScraper(driver, outputFile)
@@ -439,7 +545,17 @@ def main():
     # suteScraper(driver, outputFile)
     # tenMinMailNetScraper(driver, outputFile)
     # disposableScraper(driver, outputFile)
-    snapMailScraper(driver, outputFile)
+    # snapMailScraper(driver, outputFile)
+    # tijDeliScraper(driver, outputFile)
+    # trashSpamScraper(driver, outputFile)
+    # tempeMailScraper(driver, outputFile)
+    # clipMailScraper(driver, outputFile)
+    # getInboxScraper(driver, outputFile)
+    # tempMailNinjaScraper(driver, outputFile)
+    # mailHazardScraper(driver, outputFile)
+    # mailTemporaireScraper(driver, outputFile) #wants notification allow info
+    # tempSkyScraper(driver, outputFile)
+    tempMailIOScraper(driver, outputFile)
     # Close the WebDriver
     driver.quit()
 
