@@ -17,8 +17,8 @@ def get_element_value_2(driver, xpath):
     return element.get_attribute("value")
 
 # Function to get content from a specified attribute
-def get_element_attribute(driver, xpath, attribute):
-    wait = WebDriverWait(driver)
+def get_element_attribute(driver, xpath, attribute, timeout=10):
+    wait = WebDriverWait(driver, timeout)
     element = wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
     # Get the specified attribute from the element
     return element.get_attribute(attribute)
@@ -89,7 +89,6 @@ def crazyMailScraper(driver, fileName):
     # Get the value from the specified element using this javascript code
     content = get_element_attribute(driver, input_xpath, "value")
     content = filter_content(content)
-    print(content)
     # Save the retrieved content to a text file
     save_to_file(content, fileName)
     return
@@ -118,7 +117,6 @@ def kukuMailScraper(driver, fileName):
     # Get the value from the specified element
     content = get_element_value(driver, input_xpath)
     content = filter_content(content)
-    print(content)
     # Save the retrieved content to a text file
     save_to_file(content, fileName)
     return
@@ -154,7 +152,12 @@ def tenMinMailScraper(driver, fileName):
 def main():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     outputFile = "dynamicDomains.txt"
-    tempMailScraper(driver, outputFile) #its slow don't know why do this by handling button
+    crazyMailScraper(driver,outputFile)
+    anonBoxScraper(driver, outputFile)
+    kukuMailScraper(driver, outputFile)
+    fakeMailScraper(driver, outputFile)
+    tenMinMailScraper(driver, outputFile)
+    # tempMailScraper(driver, outputFile) #its slow don't know why do this by handling button
     # Close the WebDriver
     driver.quit()
 
