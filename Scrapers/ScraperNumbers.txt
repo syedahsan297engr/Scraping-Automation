@@ -129,3 +129,15 @@ In office I will make generic scrapers and include all the scrapers that have be
 
 
 //Now disposable provider: https://temprmail.com
+
+source, date
+
+What to modify now, and work on that
+
+You've to directly update the CSV File, Add columns source and date there, fetch the source from link, and date will be current date
+basically now it will be a object that will be inserted into a csv
+
+Get anonbox and floodout in static file
+Done with all of this
+
+Now search some other domains there

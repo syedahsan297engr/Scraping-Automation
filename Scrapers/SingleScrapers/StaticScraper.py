@@ -530,8 +530,6 @@ def main():
     InboxKittenScraper(driver, outputFile)
     mailCatchScraper(driver, outputFile)
     minuteInboxScraper(driver, outputFile)
-    # tempailScraper(driver, outputFile) #require captacha 
-    # tenMinMailScraper(driver, outputFile) #human verification some times
     fakeeMailScraper(driver, outputFile)
     harikiriMailScraper(driver, outputFile)
     uroidScraper(driver, outputFile)
@@ -540,7 +538,7 @@ def main():
     einWegScraper(driver, outputFile)
     mail1aScraper(driver, outputFile)
     suteScraper(driver, outputFile)
-    tenMinMailNetScraper(driver, outputFile) #requires permissions
+    tenMinMailNetScraper(driver, outputFile) 
     disposableScraper(driver, outputFile)
     snapMailScraper(driver, outputFile)
     tijDeliScraper(driver, outputFile)
@@ -550,9 +548,11 @@ def main():
     getInboxScraper(driver, outputFile)
     tempMailNinjaScraper(driver, outputFile)
     mailHazardScraper(driver, outputFile)
-    mailTemporaireScraper(driver, outputFile) #wants notification allow info
+    mailTemporaireScraper(driver, outputFile)
     tempSkyScraper(driver, outputFile)
     tempMailIOScraper(driver, outputFile)
+    tempailScraper(driver, outputFile) 
+    tenMinMailScraper(driver, outputFile)
     yopMailScraper(driver, outputFile)
     # Close the WebDriver
     driver.quit()
