@@ -272,6 +272,7 @@ def anonBoxScraper(driver, filePath):
     save_to_csv(content, "anonbox.net", filePath)
     return
 
+
 # Main execution
 def main():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))

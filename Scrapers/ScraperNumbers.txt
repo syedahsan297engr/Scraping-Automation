@@ -141,3 +141,18 @@ Get anonbox and floodout in static file
 Done with all of this
 
 Now search some other domains there
+
+Got a website info with a lot of disposable domains, let's scrape that
+
+https://www.mailcheck.ai
+
+Now exploring the domains from the start, have got 2 important resources as well.
+
+Ask if these resources are valid
+https://joewein.net/spam/spam-freemailer.htm
+https://verifymail.io/domain/promail9.net
+https://gist.github.com/mpyw/6b59ffbe517da9cccbf40db9aa30d09b
+https://www.mailcheck.ai/provider/temp-mail.org
+
+
+Update Drop Down logic according to your work, of updating source if exists

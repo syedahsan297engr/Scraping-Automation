@@ -73,7 +73,7 @@ def main(txt_file_paths, csv_file_path):
 
 if __name__ == "__main__":
     # Example usage
-    txt_file_paths = ['staticDomains.txt', 'dynamicDomains.txt', 'dropdowns.txt']  # replace with your txt file paths
+    txt_file_paths = ['staticDomains.txt', 'dynamicDomains.txt', 'dropdowns.txt', 'OneScrap.txt']  # replace with your txt file paths
     csv_file_path = 'Updated Free_Spam_Disposable - Disposable domains.csv'  # replace with your csv file path
     
     main(txt_file_paths, csv_file_path)

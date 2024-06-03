@@ -108,7 +108,34 @@ def save_to_csv(content, source, file_path):
             writer.writerow([domain, source, current_date])
         print(f"Content successfully appended to {file_path}")
     else:
-        print(f"Content '{domain}' already exists in {file_path}")
+        if domain in existing_entries:
+            updated = False
+            updated_lines = []
+            # Read the existing file content
+            with open(file_path, 'r') as file:
+                lines = file.readlines()
+            # Process each line
+            for line in lines:
+                row = line.strip().split(',')
+                if row[0] == domain:
+                    # Ensure row has enough elements
+                    while len(row) < 3:
+                        row.append('')
+                    # Update the row with new source and current date if source differs
+                    if row[1] != source:
+                        row[1] = source
+                        row[2] = current_date
+                        updated = True
+                    line = ','.join(row) + '\n'
+                updated_lines.append(line)
+            # Write all lines back to the file
+            with open(file_path, 'w', newline='') as file:
+                file.writelines(updated_lines)
+            if updated:
+                print(f"Content '{domain}' updated with new source and date in {file_path}")
+            else:
+                print(f"Content '{domain}' already exists in {file_path}, but source differs")
+
 
 
 def save_list_to_csv(contents, source, file_path):
@@ -123,7 +150,7 @@ def save_list_to_csv(contents, source, file_path):
                 existing_entries.add(row[0])
 
 
-    excluded_entries = {"INACTIVE SOON:", "Random domain", "INACTIVE SOON"} # these entries are in some drop downs
+    excluded_entries = {"INACTIVE SOON:", "Random domain", "INACTIVE SOON", "gmail.com"} # these entries are in some drop downs
     # Check if the content is already in the CSV file
     new_entries = []
     for content in contents:
