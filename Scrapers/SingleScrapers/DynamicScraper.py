@@ -157,7 +157,7 @@ def main():
     kukuMailScraper(driver, outputFile)
     fakeMailScraper(driver, outputFile)
     tenMinMailScraper(driver, outputFile)
-    # tempMailScraper(driver, outputFile) #its slow don't know why do this by handling button
+    tempMailScraper(driver, outputFile) #its slow don't know why do this by handling button
     # Close the WebDriver
     driver.quit()
 

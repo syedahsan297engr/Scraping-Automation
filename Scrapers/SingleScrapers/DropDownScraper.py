@@ -39,11 +39,13 @@ def append_list_to_file(text_list, file_path):
             # If the file doesn't exist, create it
             open(file_path, 'w').close()  # Create the file
 
+        # Entries to exclude
+        excluded_entries = {"INACTIVE SOON", "Random domain"}
         # Open the specified file in append mode (this will create the file if it doesn't exist)
         with open(file_path, 'a') as file:
             # Write each item only if it is not already in the file
             for item in text_list:
-                if item not in existing_entries:
+                if item not in existing_entries and item not in excluded_entries:
                     file.write(item + '\n')  # Adding newline after each entry
                     existing_entries.add(item)
 
@@ -457,7 +459,6 @@ def tempeMailScraper(driver, fileName):
 
     # Extract the text from each option
     dropdown_texts = [option.text for option in options[1:]]
-    print(dropdown_texts)
     # Save the copied content to a text file
     append_list_to_file(filter_content(dropdown_texts), fileName)
     return
@@ -467,27 +468,27 @@ def main():
     # Initialize the WebDriver
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install())) # no need to chromedriver_path
     outputFileName = "dropdowns.txt"
-    # guerillaScraper(driver, outputFileName)
-    # temprMailScraper(driver, outputFileName)
-    # emailFakeScraper(driver, outputFileName)
-    # generatorMailScraper(driver, outputFileName)
-    # temporaryMailNetScraper(driver, outputFileName)
-    # fakeMailGeneratorScraper(driver, outputFileName)
-    # mailFakeScraper(driver, outputFileName)
-    # fakeTempMailScraper(driver, outputFileName)
-    # instantMailScraper(driver, outputFileName)
-    # mailGenScraper(driver, outputFileName)
-    # trashMailScraper(driver, outputFileName)
-    # lorteMailScraper(driver, outputFileName)
-    # oneSecMailScraper(driver, outputFileName)
-    # mailTempGmailScraper(driver, outputFileName) # why gmail.com a disposable domain
-    # trashMailScraper(driver, outputFileName)
-    # moaktScraper(driver, outputFileName)
-    # muellMailScraper(driver, outputFileName)
-    # dropMailScraper(driver, outputFileName)
-    # mailTempScraper(driver, outputFileName)
+    guerillaScraper(driver, outputFileName)
+    temprMailScraper(driver, outputFileName)
+    emailFakeScraper(driver, outputFileName)
+    generatorMailScraper(driver, outputFileName)
+    temporaryMailNetScraper(driver, outputFileName)
+    fakeMailGeneratorScraper(driver, outputFileName)
+    fakeTempMailScraper(driver, outputFileName)
+    instantMailScraper(driver, outputFileName)
+    mailGenScraper(driver, outputFileName)
+    trashMailScraper(driver, outputFileName)
+    lorteMailScraper(driver, outputFileName)
+    oneSecMailScraper(driver, outputFileName)
+    mailTempGmailScraper(driver, outputFileName) # why gmail.com a disposable domain
+    trashMailScraper(driver, outputFileName)
+    moaktScraper(driver, outputFileName)
+    muellMailScraper(driver, outputFileName)
+    dropMailScraper(driver, outputFileName)
+    mailTempScraper(driver, outputFileName)
     tempeMailScraper(driver, outputFileName)
-    # inboxesScraper(driver, outputFileName) #takes little more time to scrap
+    mailFakeScraper(driver, outputFileName)
+    inboxesScraper(driver, outputFileName) #takes little more time to scrap
     # Close the WebDriver
     driver.quit()
 
