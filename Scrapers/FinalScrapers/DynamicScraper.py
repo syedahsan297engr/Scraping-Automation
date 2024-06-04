@@ -109,13 +109,13 @@ def freeEmailProvidersGitHubScraper(driver, filePath):
 # Main execution
 def main():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-    outputFilePath = "Sample.csv"
+    outputFilePath = "/home/ahsan/Desktop/Scraping-Automation/Documents/disposable-domains.csv"
     crazyMailScraper(driver, outputFilePath)
     kukuMailScraper(driver, outputFilePath)
     tenMinMailScraper(driver, outputFilePath)
     mailCheckAiScraper(driver, outputFilePath)
     proMailNetScraper(driver, outputFilePath)
-    mailCheckAiScraperUpdated(driver, outputFilePath) #this one to run as it will give you updated domains above will scrap one time
+    mailCheckAiScraper(driver, outputFilePath) #this one to run as it will give you updated domains above will scrap one time
     tempMailScraper(driver, outputFilePath) #takes time
     freeEmailProvidersGitHubScraper(driver, outputFilePath)
     driver.quit()

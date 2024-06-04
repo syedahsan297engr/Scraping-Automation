@@ -119,7 +119,7 @@ def save_to_csv(content, source, file_path):
                 row = line.strip().split(',')
                 if row[0] == domain:
                     # Ensure row has enough elements
-                    while len(row) < 3:
+                    while len(row) < 2:
                         row.append('')
                     # Update the row with new source and current date if source differs
                     if row[1] != source:
@@ -138,7 +138,7 @@ def save_to_csv(content, source, file_path):
 
 
 
-def save_list_to_csv(contents, source, file_path):
+def save_list_to_csv_old(contents, source, file_path):
     current_date = datetime.now().strftime('%Y-%m-%d')
     contents = filter_content(contents)
     # Read existing entries from the CSV file to check for duplicates
@@ -165,3 +165,54 @@ def save_list_to_csv(contents, source, file_path):
         print(f"Contents successfully appended to {file_path}")
     else:
         print(f"All contents already exist in {file_path}")
+
+
+# for updating the existing content with sources
+def save_list_to_csv(contents, source, file_path):
+    current_date = datetime.now().strftime('%Y-%m-%d')
+    contents = filter_content(contents)
+    
+    # Read existing entries from the CSV file to check for duplicates
+    existing_entries = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                if row:
+                    existing_entries[row[0]] = row[1:]
+
+    excluded_entries = {"INACTIVE SOON:", "Random domain", "INACTIVE SOON", "gmail.com"}  # entries to exclude
+    new_entries = []
+    updated_lines = []
+    updated = False
+
+    for content in contents:
+        if content in excluded_entries or len(content) <= 1:
+            continue
+        
+        if content not in existing_entries:
+            new_entries.append([content, source, current_date])
+        else:
+            row = existing_entries[content]
+            if row[0] != source:
+                while len(row) < 2:
+                    row.append('')
+                row[0] = source
+                row[1] = current_date
+                updated = True
+            updated_lines.append([content] + row)
+
+    # Write all updated lines back to the file
+    with open(file_path, 'w', newline='') as file:
+        writer = csv.writer(file)
+        # Write updated existing entries
+        for key, value in existing_entries.items():
+            if key not in [entry[0] for entry in new_entries]:  # Avoid duplication
+                writer.writerow([key] + value)
+        # Write new entries
+        writer.writerows(new_entries)
+    
+    if new_entries:
+        print(f"New contents successfully appended to {file_path}")
+    if updated:
+        print(f"Some contents updated with new source and date in {file_path}")

@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
-from utilities import handle_form, get_button_clicked, get_drop_down, save_list_to_csv
+from utilities import handle_form, get_button_clicked, get_drop_down, save_list_to_csv, save_list_to_csv_old
 
     
 # 4
@@ -248,7 +248,7 @@ def tempeMailScraper(driver, filePath):
 def main():
     # Initialize the WebDriver
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install())) # no need to chromedriver_path
-    outputFilePath = "Sample.csv"
+    outputFilePath = "/home/ahsan/Desktop/Scraping-Automation/Documents/disposable-domains.csv"
     guerillaScraper(driver, outputFilePath) 
     temprMailScraper(driver, outputFilePath) 
     emailFakeScraper(driver, outputFilePath)

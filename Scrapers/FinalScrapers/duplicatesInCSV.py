@@ -23,6 +23,6 @@ def count_duplicates_in_first_column(csv_file_path):
     print(duplicates)
 
 # Example usage
-csv_file_path = 'Sample.csv'  # Replace with your CSV file path
+csv_file_path = '/home/ahsan/Desktop/Scraping-Automation/Documents/disposable-domains.csv'  # Replace with your CSV file path
 
 count_duplicates_in_first_column(csv_file_path)

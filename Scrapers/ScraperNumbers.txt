@@ -156,3 +156,35 @@ https://www.mailcheck.ai/provider/temp-mail.org
 
 
 Update Drop Down logic according to your work, of updating source if exists
+
+
+New Tasks
+
+disposable source not found empty -> simply run your scrapers on this -> previously 18363 records
+new disposable if source empty set database as a source -> simply run your scrapers on this first, and then use pandas to do some
+data manipulation where the column will be empty enter the source as database. The merge both csvs and avoid duplicates 
+
+new disposable file -> previously 188308
+
+in new disposable file instead of appending the content just check whether it exist or not just fill the source, as we have to merge
+both these csv's then
+
+
+Now first handle that disposable-domains file, run all your scrapers on that.
+
+Then handle 2nd file run all your scrapers just to update the source, and then do pandas data manipulation to populate the column
+with source = database.
+
+Then the last step merge both csv's, you have include unique domains, I have to decide which duplicated domain to drop, 
+the duplicate coming from previous file should be dropped as the source there will be empty or not
+if empty means that in new file source of database is added
+if not empty no matter which to drop as you have populate the source in both 
+
+18460 before git scraper in disposable db
+
+Working with disposable domain file, keeping the format
+Complete the new disposable file now running each scraper and then merge both csvs
+
+
+email validation
+whether email exist or not, this is the main part 
