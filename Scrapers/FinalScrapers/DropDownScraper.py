@@ -248,7 +248,7 @@ def tempeMailScraper(driver, filePath):
 def main():
     # Initialize the WebDriver
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install())) # no need to chromedriver_path
-    outputFilePath = "/home/ahsan/Desktop/Scraping-Automation/Documents/disposable-domains.csv"
+    outputFilePath = "/home/ahsan/Desktop/Scraping-Automation/Documents/disposable-domains.csv" # your file path
     guerillaScraper(driver, outputFilePath) 
     temprMailScraper(driver, outputFilePath) 
     emailFakeScraper(driver, outputFilePath)

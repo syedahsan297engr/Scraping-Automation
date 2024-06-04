@@ -109,7 +109,7 @@ def freeEmailProvidersGitHubScraper(driver, filePath):
 # Main execution
 def main():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-    outputFilePath = "/home/ahsan/Desktop/Scraping-Automation/Documents/disposable-domains.csv"
+    outputFilePath = "/home/ahsan/Desktop/Scraping-Automation/Documents/disposable-domains.csv" # your file path
     crazyMailScraper(driver, outputFilePath)
     kukuMailScraper(driver, outputFilePath)
     tenMinMailScraper(driver, outputFilePath)
