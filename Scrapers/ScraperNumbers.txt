@@ -188,3 +188,20 @@ Complete the new disposable file now running each scraper and then merge both cs
 
 email validation
 whether email exist or not, this is the main part 
+
+
+check secured mails
+
+create your own user agent.. may it solve
+
+
+Drop Down working Fully, Dynamic Working Fully
+
+not running on server
+static:
+# tenMinMailScraper(driver, outputFilePath)
+# tempailScraper(driver, outputFilePath)
+
+These 2 scrapers testing now'
+Done with all of this, now see email validation
+

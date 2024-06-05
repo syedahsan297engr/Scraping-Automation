@@ -1,74 +1,23 @@
-#/html/body/div[1]/main/div/div/div/div[1]/h1/span[2]/div/div[2]/span
+from bs4 import BeautifulSoup
+import requests
 
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.service import Service
-import time  # to handle delays if needed
-import os
-from webdriver_manager.chrome import ChromeDriverManager
-# Function to set up WebDriver
-def setup_webdriver(chromedriver_path):
-    service = Service(chromedriver_path)
-    return webdriver.Chrome(service=service)
+# URL of the webpage you want to scrape
+url = 'https://verifymail.io/domain/promail9.net'
 
-# Function to get content from a specified attribute
-def get_button_clicked(driver, xpath):
-    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath))).click()
-    return
+# Send a GET request to fetch the raw HTML content
+response = requests.get(url)
+web_content = response.content
 
-def handle_form(driver, xpath):
-    dropdown = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath)))
-    return dropdown
+# Parse the HTML content using BeautifulSoup
+soup = BeautifulSoup(web_content, 'html.parser')
 
-def append_list_to_file(text_list, file_path):
-    try:
-        # Open the specified file in append mode
-        with open(file_path, 'a') as file:
-            # Write each item on a new line
-            for item in text_list:
-                file.write(item + '\n')  # Adding newline after each entry
+# Use CSS selectors to locate the specific section
+div = soup.select_one('body > div:nth-of-type(3) > section:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(6) > span')
 
-        print(f"Data successfully appended to {file_path}")
+# Fetch all <a> tags within the specified section
+a_tags = div.find_all('a')
 
-    except Exception as e:
-        print(f"An error occurred while appending to the file: {e}")
+# Extract the content (text) of each <a> tag
+a_texts = [a.get_text() for a in a_tags]
 
-
-
-# Main execution logic
-def main():
-    # Path to ChromeDriver (adjust as needed)
-    chromedriver_path = "/usr/lib/chromium-browser/chromedriver"  # Change to your chromedriver path
-
-    # Initialize the WebDriver
-    # driver = setup_webdriver(chromedriver_path)
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install())) # no need to chromedriver_path
-    # Open the website
-    driver.get("https://emailfake.com/")  # Change to your target website
-
-    button_selector = "/html/body/div[3]/div/div/div/div[3]"
-    get_button_clicked(driver, button_selector)
-
-    # Locate the dropdown and extract its options (replace the selector with the correct one)
-    dropdown_selector = "/html/body/div[3]/div/div/div/div[2]/div[2]/div/div"
-    dropdown = handle_form(driver, dropdown_selector)
-
-
-    # Get all the option elements from the dropdown
-    options = dropdown.find_elements(By.TAG_NAME, "p")
-
-    # Extract the text from each option
-    dropdown_texts = [option.text for option in options[1:]]
-
-    # print("Dropdown options:", dropdown_texts)
-    # Save the copied content to a text file
-    append_list_to_file(dropdown_texts, "copied_content.txt")
-
-    # Close the WebDriver
-    driver.quit()
-
-# Run the main function
-if __name__ == "__main__":
-    main()
+print(type(a_texts))

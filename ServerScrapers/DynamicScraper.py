@@ -2,11 +2,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+import argparse
+from bs4 import BeautifulSoup
 from utilities import get_element_value, get_element_value_2, get_element_attribute, save_to_csv, save_list_to_csv, get_drop_down
 
 # 1
@@ -20,7 +23,7 @@ def tempMailScraper(driver, filePath):
 # 28
 def crazyMailScraper(driver, filePath):
     driver.get("https://www.crazymailing.com/")
-    time.sleep(7)
+    time.sleep(10)
     input_xpath = '//*[@id="trsh_mail"]'
     content = get_element_attribute(driver, input_xpath, "value")
     save_to_csv(content, "crazymailing.com", filePath)
@@ -29,21 +32,14 @@ def crazyMailScraper(driver, filePath):
 # 48
 def kukuMailScraper(driver, filePath):
     driver.get("https://m.kuku.lu/index.php")
+    time.sleep(5)
     input_xpath = '/html/body/div[1]/div[3]/div/div/div[8]/div[4]/div/div[1]/div/div[1]/a/div/span[2]'
+    # input_xpath = '//*[@id="area_mailaddr_5ebb0d1cafdb9009a7ae313b42046a69"]'
+    #//*[@id="area_mailaddr_5ebb0d1cafdb9009a7ae313b42046a69"]
     content = get_element_value(driver, input_xpath)
     save_to_csv(content, "kuku.lu", filePath)
     return
 
-
-
-# 59
-def tenMinMailScraper(driver, filePath):
-    driver.get("https://10minutemail.com/")
-    button_xpath = '//*[@id="mail_address"]'
-    time.sleep(7)
-    content = get_element_value_2(driver, button_xpath)
-    save_to_csv(content, "10minutemail.com", filePath)
-    return
 
 # added from prev records
 def mailCheckAiScraper(driver, fileName):
@@ -82,7 +78,7 @@ def mailCheckAiScraperUpdated(driver, fileName):
         domains = []
     return
 
-def proMailNetScraper(driver, filePath):
+def proMailNetScraper2(driver, filePath):
     driver.get("https://verifymail.io/domain/promail9.net")  
     dropdown_xpath = '/html/body/div[3]/section[2]/div[1]/div/div/div[1]/div/div[2]/div[6]'
     dropdown = get_drop_down(driver, dropdown_xpath)
@@ -92,31 +88,55 @@ def proMailNetScraper(driver, filePath):
     save_list_to_csv(dropdown_texts, "promail9.net", filePath)
     return
 
-#//*[@id="file-free_email_provider_domains-txt-LC3"]
-def freeEmailProvidersGitHubScraper(driver, filePath):
-    driver.get("https://gist.github.com/mpyw/6b59ffbe517da9cccbf40db9aa30d09b")  
-    domains = []
-    # total 9683 records are there on github
-    for id in range (1, 9683):
-        xpath = f'//*[@id="file-free_email_provider_domains-txt-LC{id}"]'
-        currDomain = get_element_value(driver, xpath)
-        domains.append(currDomain)
-    # print(len(domains)) #5886 #20815
-    save_list_to_csv(domains, "github.mpyw", filePath)
-    return
+def proMailNetScraper(driver, filePath):
+    try:
+        driver.get("https://verifymail.io/domain/promail9.net")
+        # Fetch the page content using the Selenium WebDriver
+        page_source =  driver.page_source
 
+        # Parse the HTML content using BeautifulSoup
+        soup = BeautifulSoup(page_source, 'html.parser')
+
+        # Use CSS selectors to locate the specific section
+        div = soup.select_one('body > div:nth-of-type(3) > section:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(6) > span')
+
+        if div:
+            # Fetch all <a> tags within the specified section
+            a_tags = div.find_all('a')
+
+            # Extract the content (text) of each <a> tag
+            a_texts = [a.get_text() for a in a_tags]
+
+            save_list_to_csv(a_texts, "promail9.net", filePath)
+        else:
+            pass 
+    except Exception as e:
+        print(f"Error processing the webpage: {e}")
+
+    return 
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='InboxKitten Scraper')
+    parser.add_argument('outputFilePath', type=str, help='Path to the output CSV file')
+    return parser.parse_args()
 
 # Main execution
 def main():
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-    outputFilePath = "/home/ahsan/Desktop/Scraping-Automation/Documents/disposable-domains.csv" # your file path
-    crazyMailScraper(driver, outputFilePath)
-    kukuMailScraper(driver, outputFilePath)
-    tenMinMailScraper(driver, outputFilePath)
+    args = parse_arguments()
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    outputFilePath = args.outputFilePath
+    # crazyMailScraper(driver, outputFilePath)
+    # kukuMailScraper(driver, outputFilePath)
     proMailNetScraper(driver, outputFilePath)
-    mailCheckAiScraper(driver, outputFilePath) #this one to run as it will give you updated domains above will scrap one time
-    tempMailScraper(driver, outputFilePath) #takes time
-    freeEmailProvidersGitHubScraper(driver, outputFilePath)
+    # mailCheckAiScraperUpdated(driver, outputFilePath) #this one to run as it will give you updated domains above will scrap one time
+    # tempMailScraper(driver, outputFilePath) #takes time You can get the same data from above scraper very fast
     driver.quit()
 
 if __name__ == "__main__":

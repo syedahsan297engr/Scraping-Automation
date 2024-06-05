@@ -1,0 +1,21 @@
+cd
+cd .ssh/
+cat id_rsa.pub   -> give ssh key
+ssh wf_testing2@172.105.134.180 -> added on server
+
+scp /home/ahsan/Desktop/Scraping-Automation/ServerScrapers/StaticScraper.py wf_testing2@172.105.134.180:/home/wf_testing2/web_scrapers
+
+
+python DynamicScraper.py "/home/wf_testing2/web_scrapers/Sample.csv"
+
+servers
+ssh
+sftp - protocols
+rocky-linux
+scp - protocols
+
+make program as accepting sys argv
+file editor available on server, vim, nano -> use these to update file on server
+
+
+in nano Ctrl+X to exit Ctrl+O then enter to save 

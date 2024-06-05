@@ -1,59 +1,65 @@
-from selenium import webdriver
+from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
+from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-import time
-import os
 
-# Function to set up WebDriver
-def setup_webdriver():
-    return webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
-# Function to get text content of all options in a dropdown
-def get_dropdown_options(driver, xpath, timeout=10):
-    wait = WebDriverWait(driver, timeout)  # Timeout in seconds
-    dropdown_element = wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
-    options = dropdown_element.find_elements(By.TAG_NAME, "option")
-    return [option.text for option in options]
+def proMailNetScraper(driver):
+    try:
+        # Fetch the page content using the Selenium WebDriver
+        page_source = driver.page_source
 
-# Function to write or append content to a text file
-def write_or_append_to_file(content, file_path):
-    # Check if the file exists
-    if os.path.exists(file_path):
-        mode = "a"  # Append mode if file exists
-    else:
-        mode = "w"  # Write mode to create file if it doesn't exist
+        # Parse the HTML content using BeautifulSoup
+        soup = BeautifulSoup(page_source, 'html.parser')
 
-    with open(file_path, mode) as file:
-        if mode == "a":
-            file.write("\n")  # Optional newline for better formatting
-        file.write("\n".join(content))
+        # Use CSS selectors to locate the specific section
+        div = soup.select_one('body > div:nth-of-type(3) > section:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(6) > span')
 
-# Main execution logic
+        if div:
+            # Fetch all <a> tags within the specified section
+            a_tags = div.find_all('a')
+
+            # Extract the content (text) of each <a> tag
+            a_texts = [a.get_text() for a in a_tags]
+
+            return a_texts
+        else:
+            return []
+    except Exception as e:
+        print(f"Error processing the webpage: {e}")
+        return []
+
+
 def main():
-    # Initialize the WebDriver
-    driver = setup_webdriver()
+    # Set up Chrome options
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
 
-    # Open the website
-    driver.get("https://emailfake.com/")
+    # Initialize the Selenium WebDriver
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
-    # XPath for the dropdown element
-    dropdown_xpath = '/html/body/div[3]/div[1]/div/div/div[2]/div[2]/div/div'
+    try:
+        # Open the URL
+        url = 'https://verifymail.io/domain/promail9.net'
+        driver.get(url)
 
-    # Wait for a moment to ensure the action completes
-    time.sleep(0.1)  # Adjust as needed based on website response time
+        # Call the proMailNetScraper function
+        result = proMailNetScraper(driver)
 
-    # Get the dropdown options content
-    dropdown_options = get_dropdown_options(driver, dropdown_xpath)
-    print(dropdown_options)
-    # Save the dropdown options content to a text file
-    #write_or_append_to_file(dropdown_options, "dropdown_options.txt")
+        # Print the result
+        print(result)
+    finally:
+        # Quit the driver
+        driver.quit()
 
-    # Close the WebDriver
-    driver.quit()
-
-# Run the main function
 if __name__ == "__main__":
     main()
