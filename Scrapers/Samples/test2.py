@@ -1,65 +1,39 @@
-from bs4 import BeautifulSoup
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
+from selenium.webdriver.support import expected_conditions as EC
+import argparse
 
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
-def proMailNetScraper(driver):
-    try:
-        # Fetch the page content using the Selenium WebDriver
-        page_source = driver.page_source
+# Open the web page
+url = 'https://www.temporary-mail.net/'  # Change this to the URL of your web page
+driver.get(url)
 
-        # Parse the HTML content using BeautifulSoup
-        soup = BeautifulSoup(page_source, 'html.parser')
+try:
+    # Click the button to trigger the dropdown
+    button_xpath = '/html/body/section[1]/div/div/div[2]/div/div[2]/button'
+    button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, button_xpath)))
+    button.click()
 
-        # Use CSS selectors to locate the specific section
-        div = soup.select_one('body > div:nth-of-type(3) > section:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(6) > span')
+    # Wait for the dropdown <ul> to appear
+    ul_xpath = '/html/body/section[1]/div/div/div[2]/div/div[2]/ul'
+    ul_element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, ul_xpath)))
 
-        if div:
-            # Fetch all <a> tags within the specified section
-            a_tags = div.find_all('a')
+    # Get the HTML content of the <ul>
+    ul_html = ul_element.get_attribute('outerHTML')
 
-            # Extract the content (text) of each <a> tag
-            a_texts = [a.get_text() for a in a_tags]
+    # Use BeautifulSoup to parse the HTML
+    soup = BeautifulSoup(ul_html, 'html.parser')
+    a_tags = soup.find_all('a')
+    a_tag_contents = [a.get_text() for a in a_tags]
+    # Extract and print the content of each <a> tag
+    print(a_tag_contents)
 
-            return a_texts
-        else:
-            return []
-    except Exception as e:
-        print(f"Error processing the webpage: {e}")
-        return []
-
-
-def main():
-    # Set up Chrome options
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-
-    # Initialize the Selenium WebDriver
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-
-    try:
-        # Open the URL
-        url = 'https://verifymail.io/domain/promail9.net'
-        driver.get(url)
-
-        # Call the proMailNetScraper function
-        result = proMailNetScraper(driver)
-
-        # Print the result
-        print(result)
-    finally:
-        # Quit the driver
-        driver.quit()
-
-if __name__ == "__main__":
-    main()
+finally:
+    # Close the WebDriver
+    driver.quit()

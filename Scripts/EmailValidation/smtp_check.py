@@ -1,44 +1,86 @@
-import smtplib
-import dns.resolver
+import socket
+import socks
+from smtplib import SMTP, SMTPServerDisconnected
 
-def verify_email_smtp(email):
-    try:
-        # Extract domain
-        domain = email.split('@')[1]
-        
-        # Get MX record for the domain
-        mx_records = dns.resolver.resolve(domain, 'MX')
-        mx_record = str(mx_records[0].exchange)
-        
-        # Set up SMTP connection
-        server = smtplib.SMTP(mx_record)
-        server.set_debuglevel(0)  # Set to 1 for detailed debug output
-        server.connect(mx_record)
-        server.helo(server.local_hostname)  # server.local_hostname(Get local server hostname)
-        server.mail('2020engineerahsan@gmail.com')  # Use your real email here
-        code, message = server.rcpt(email)
-        server.quit()
-        
-        # Check the response code
-        if code == 250:
-            return True
+class SocksSMTP(SMTP):
+    def __init__(
+        self,
+        host='',
+        port=0,
+        local_hostname=None,
+        timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
+        source_address=None,
+        proxy_type=None,
+        proxy_addr=None,
+        proxy_port=None,
+        proxy_rdns=True,
+        proxy_username=None,
+        proxy_password=None,
+        socket_options=None
+    ):
+        self.proxy_type = proxy_type
+        self.proxy_addr = proxy_addr
+        self.proxy_port = proxy_port
+        self.proxy_rdns = proxy_rdns
+        self.proxy_username = proxy_username
+        self.proxy_password = proxy_password
+        self.socket_options = socket_options
+
+        # If proxy_type is provided, change the socket to socksocket.
+        # Otherwise, behave like a normal SMTP class.
+        if self.proxy_type:
+            self._get_socket = self.socks_get_socket
+
+        super(SocksSMTP, self).__init__(
+            host, port, local_hostname, timeout, source_address
+        )
+
+    def socks_get_socket(self, host, port, timeout):
+        if self.debuglevel > 0:
+            self._print_debug('connect: to', (host, port), self.source_address)
+        return socks.create_connection(
+            (host, port),
+            timeout=timeout,
+            source_address=self.source_address,
+            proxy_type=self.proxy_type,
+            proxy_addr=self.proxy_addr,
+            proxy_port=self.proxy_port,
+            proxy_rdns=self.proxy_rdns,
+            proxy_username=self.proxy_username,
+            proxy_password=self.proxy_password,
+            socket_options=self.socket_options
+        )
+
+proxy_host = '188.74.210.207'
+proxy_port = 6286
+proxy_username = 'zfbzvjqm'
+proxy_password = 'y87xzme3pxct'
+
+address_to_test = "2020ee297@student.uet.edu.pk"
+# address_to_test = "syedahsannoori@gmail.com"
+# address_to_test = "ejaz_ahmed@outlook.com"
+# address_to_test = "pifahef573@morxin.com"
+
+try:
+    with SocksSMTP(
+        'gmail-smtp-in.l.google.com',
+        proxy_type=socks.SOCKS5,
+        proxy_addr=proxy_host,
+        proxy_port=proxy_port,
+        proxy_username=proxy_username,
+        proxy_password=proxy_password
+    ) as smtp:
+        host_exists = True
+        smtp.helo()  # send the HELO command
+        smtp.mail('2020engineerahsan@gmail.com')  # send the MAIL command
+        resp = smtp.rcpt(address_to_test)
+        if resp[0] == 250:  # check the status code
+            deliverable = True
+        elif resp[0] == 550:
+            deliverable = False
         else:
-            return False
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return False
+            print(resp[0])
+        print(f'The mail is : {deliverable}')
 
-# Test the function
-email_to_check = 'ejaz_ahmed@outlook.com'
-is_valid = verify_email_smtp(email_to_check)
-print(f"Email '{email_to_check}' is valid: {is_valid}")
-
-'''
-    Extract Domain: Extract the domain part of the email (i.e., gmail.com).
-    Get MX Record: Perform a DNS lookup to get the MX (Mail Exchange) record for the domain. This tells you which mail server is responsible for receiving emails for that domain.
-    SMTP Connection: Connect to the mail server using the SMTP protocol.
-    HELO/EHLO: Introduce yourself to the mail server.
-    MAIL FROM: Specify the sender's email address (can be any valid email address).
-    RCPT TO: Specify the recipient's email address (the one you're verifying).
-    Check Response Code: Check the response code from the server. A code of 250 indicates the email address is valid.
-'''
+except SMTPServerDisconnected as err:
+    print("SMTP connection error")

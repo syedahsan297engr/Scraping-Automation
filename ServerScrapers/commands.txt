@@ -4,6 +4,15 @@ cat id_rsa.pub   -> give ssh key
 ssh wf_testing2@172.105.134.180 -> added on server
 
 scp /home/ahsan/Desktop/Scraping-Automation/ServerScrapers/StaticScraper.py wf_testing2@172.105.134.180:/home/wf_testing2/web_scrapers
+scp wf_testing2@172.105.134.180:/home/wf_testing2/web_scrapers /home/ahsan/Desktop/Scraping-Automation/ServerScrapers2
+
+scp /home/ahsan/Desktop/Scraping-Automation/ServerScrapers2/StaticScraper.py wf_email_validation@rocky-2gb-fsn1-1:/home/wf_email_validation/cronjob/disposableDomainsExtraction
+
+scp /home/ahsan/Desktop/Scraping-Automation/ServerScrapers2/StaticScraper.py wf_email_validation@91.107.204.4:/home/wf_email_validation/cronjob/disposableDomainsExtraction
+
+scp wf_email_validation@91.107.204.4:/home/wf_email_validation/cronjob/disposableDomainsExtraction/disposable_with_source.csv /home/ahsan/Desktop/Scraping-Automation/ServerScrapers2
+
+scp wf_testing2@172.105.134.180:/home/wf_testing2/web_scrapers/* wf_email_validation@91.107.204.4:/home/wf_email_validation/cronjob/disposableDomainsExtractions2
 
 
 python DynamicScraper.py "/home/wf_testing2/web_scrapers/Sample.csv"
@@ -19,3 +28,7 @@ file editor available on server, vim, nano -> use these to update file on server
 
 
 in nano Ctrl+X to exit Ctrl+O then enter to save 
+
+
+Check emails through proxy.
+Sending Authentication Token.

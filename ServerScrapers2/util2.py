@@ -25,19 +25,21 @@ def get_element_attribute(driver, xpath, attribute, timeout=10):
     return element.get_attribute(attribute)
 
 
-
 def get_drop_down(driver, xpath):
     output = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, xpath)))
     return output
 
 #for inboxes
 def get_button_clicked(driver, xpath):
-    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath))).click()
+    button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+    driver.execute_script("arguments[0].click();", button)
     return
+
 
 def handle_form(driver, xpath):
     dropdown = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath)))
     return dropdown
+
 
 
 def get_button_clicked_2(driver, xpath):
